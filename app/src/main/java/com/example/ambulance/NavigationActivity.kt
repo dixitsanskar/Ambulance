@@ -18,6 +18,7 @@ import com.google.android.gms.common.api.GoogleApi
 import com.google.android.gms.common.api.GoogleApiActivity
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.ResultCallback
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -35,6 +36,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.messaging.FirebaseMessaging
+import java.text.DecimalFormat
 
 @Suppress("DEPRECATION")
 class NavigationActivity :AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback,  GoogleApiClient.OnConnectionFailedListener, LocationListener,
@@ -134,14 +136,36 @@ class NavigationActivity :AppCompatActivity(), NavigationView.OnNavigationItemSe
                    markerOptions.title(name)
                    markerOptions.snippet("Van number: $vehicle_number")
                    markerOptions.position(latlng)
-                   markerOptions.icon(BitmapDescriptorFactory.from)
+                   markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.mynewbusicon))
+                   val myMarker: Marker? = nmap.addMarker(markerOptions)
+                   hashMap!![myMarker.title] = myMarker
 
-
-
-
+               }
+               catch (e: java.lang.Exception){
+                   e.printStackTrace()
                }
 
            }
+           override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?)
+       {
+               try {
+                   val name: String = dataSnapshot.child("name").getValue().toString()
+                    val lat: String = dataSnapshot.child("lat").getValue().toString()
+                   val lng: String = dataSnapshot.child("lng").getValue().toString()
+                   updateLatLng = LatLng(lat.toDouble(),lng.toDouble())
+                   val marker = hashMap!![name]
+                   if(marker!=null){
+                       marker.position = updateLatLng
+                   }
+
+               }catch (e: Exception){
+                   e.printStackTrace()
+               }
+           }
+        override fun onChildRemoved(dataSnapshot: DataSnapshot){}
+          override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?){}
+          override fun onCancelled(databaseError: DatabaseError){}
+
        }
        )
 
@@ -149,6 +173,29 @@ class NavigationActivity :AppCompatActivity(), NavigationView.OnNavigationItemSe
 
 
 
+
+    }
+
+    override fun onMapReady(googleMap: GoogleMap){
+        nmap= googleMap
+        nmap!!.setOnMapClickListener { this }
+        client= GoogleApiClient.Builder(this)
+            .addApi(LocationServices.API)
+            .addOnConnectionFailedListener { this }
+            . addConnectionCallbacks(this)
+            .build()
+        client!!.connect()
+    }
+    override fun onMarkerClick(marker: Marker): Boolean {
+        val marker_Pos: LatLng = marker.position
+        val distance = CalculationByDistance(latLngCurrentUserLocation, marker_Pos)
+        val df = DecimalFormat("#.##")
+        val dist = df.format(distance)
+        Toast.makeText(getApplicationContext(), "$dist KM far.", Toast.LENGTH_SHORT).show()
+        val sb: java.lang.StringBuilder
+        val dataTransfer = arrayOfNulls<Any>(5)
+        sb = StringBuilder()
+        sb.append("https://maps.googleapis.com/maps/api/directions/json?")
 
     }
 }

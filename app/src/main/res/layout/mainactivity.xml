@@ -58,7 +58,7 @@
                 android:layout_height="50dp"
                 android:onClick="registerAsUser"
                 android:textAllCaps="false"
-                android:text="Register As Staff"
+                android:text="Register As User"
                 android:textColor="#ffffff"
                 android:textSize="18sp"
                 android:layout_marginStart="20dp"
