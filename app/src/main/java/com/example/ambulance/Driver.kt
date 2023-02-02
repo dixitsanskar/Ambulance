@@ -14,5 +14,6 @@ class Driver {
 
     constructor(
         name: String?, email: String?, password: String?,
+        vehiclenumber: String?
     )
 }
