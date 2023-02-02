@@ -21,10 +21,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <activity
+        android:name="com.example.ambulance.NavigationActivity"
+        android:label="@string/title_activity_my_navigation"
+        android:theme="@style/AppTheme" />
+        <activity android:name="com.example.ambulance.LoginActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

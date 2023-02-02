@@ -4,6 +4,7 @@ import android.location.LocationListener
 import android.location.LocationRequest
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -197,5 +198,9 @@ class NavigationActivity :AppCompatActivity(), NavigationView.OnNavigationItemSe
         sb = StringBuilder()
         sb.append("https://maps.googleapis.com/maps/api/directions/json?")
 
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        TODO("Not yet implemented")
     }
 }

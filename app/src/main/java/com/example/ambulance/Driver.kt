@@ -14,6 +14,15 @@ class Driver {
 
     constructor(
         name: String?, email: String?, password: String?,
-        vehiclenumber: String?
-    )
+        vehiclenumber: String?,
+        lat: String?,
+        lng: String?
+    ){
+        this.email = email
+        this.name = name
+        this.vehiclenumber = vehiclenumber
+        this.lat = lat
+        this.lng = lng
+
+    }
 }
