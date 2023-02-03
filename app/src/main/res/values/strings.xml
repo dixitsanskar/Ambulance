@@ -10,4 +10,19 @@
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
+    <string name="login_as_driver">Login As Driver</string>
+    <string name="login_as_user">Login As User</string>
+    <string name="user_signup">user SignUP</string>
+    <string name="user_name">User Name</string>
+    <string name="email_address">Email Address</string>
+    <string name="password1">Password</string>
+    <string name="register">Register</string>
+    <string name="driver_signup">Driver SignUP</string>
+    <string name="driver_name">Driver Name</string>
+    <string name="email_address1">Email Address</string>
+    <string name="password3">Password</string>
+    <string name="ambulance_number">Ambulance Number</string>
+    <string name="registerm">Register</string>
+    <string name="register_as_driver">Register As Driver</string>
+    <string name="register_as_user">Register As User</string>
 </resources>

@@ -16,7 +16,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 @Suppress( "DEPRECATION")
-class LoginActivities : AppCompatActivity(){
+class LoginActivity : AppCompatActivity(){
     @BindView(R.id.editTextUserEmail)
     var editTextUserEmail: EditText? = null
     @BindView(R.id.editTextUserPassword)
@@ -56,9 +56,9 @@ class LoginActivities : AppCompatActivity(){
                     override fun onComplete(task: Task<AuthResult?>) {
                         if(task.isSuccessful()){
                             dialog!!.dismiss()
-                            val loginIntent  = Intent(this@LoginActivities, NavigationActivity:: class.java )
-                            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                            startActivity(loginIntent)
+                           // val loginIntent  = Intent(this@LoginActivity, NavigationActivity:: class.java )
+                            //loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                          //  startActivity(loginIntent)
                             finish()
                         }
                         else {
