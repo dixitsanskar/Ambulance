@@ -30,7 +30,7 @@
         android:name="com.example.ambulance.NavigationActivity"
         android:label="@string/title_activity_my_navigation"
         android:theme="@style/AppTheme" />
-        <activity android:name="com.example.ambulance.LoginActivity"
+        <activity android:name="com.example.ambulance.LoginActivities"
             android:screenOrientation="portrait"/>
 
     </application>
