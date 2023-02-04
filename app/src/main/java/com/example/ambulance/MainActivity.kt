@@ -25,17 +25,18 @@ class MainActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         user = FirebaseAuth.getInstance()
 
-
+        ButterKnife.bind(this)
+        checkPermission()
+        setContentView(R.layout.mainactivity)
         if(user == null){
-            ButterKnife.bind(this)
-            checkPermission()
-            setContentView(R.layout.mainactivity)
+
+
 
         }
-       // else
+        else
         {
-            val myIntent = Intent(this@MainActivity, NavigationActivity::class.java)
-            startActivity(myIntent)
+           val myIntent = Intent(this@MainActivity, NavigationActivity::class.java)
+               startActivity(myIntent)
             finish()
         }
 
@@ -46,11 +47,13 @@ class MainActivity : AppCompatActivity() {
         val myIntent = Intent(getApplicationContext(), DriverRegistrationActivity::class.java)
         startActivity(myIntent)
 
+
     }
     fun login(v: View?)
     {
         val myIntent = Intent(this, LoginActivity::class.java )
         startActivity(myIntent)
+
     }
     fun registerAsUser(v: View?)
     {

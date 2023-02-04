@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 
@@ -30,11 +31,43 @@ class LoginActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         ButterKnife.bind(this)
-        toolbaar!!.title = "Login"
+        toolbaar?.title = "Login"
         setSupportActionBar(toolbaar)
         auth = FirebaseAuth.getInstance()
         dialog = ProgressDialog(this)
+            val btnLogin = findViewById<Button>(R.id.btnlogin)
+            btnLogin.setOnClickListener {
+                dialog?.setMessage("Logging in. Please Wait.")
+                dialog?.show()
+                if(editTextUserEmail?.getText().toString().isEmpty() || editTextUserPassword?.getText().toString().isEmpty())
+                {
+                    Toast.makeText(getApplicationContext(), "Blank fields not allowed.", Toast.LENGTH_SHORT ).show()
+                    dialog?.dismiss()
 
+                }
+                else {
+                    val newEmail: String = editTextUserEmail?.getText().toString().trim()
+                    auth?.signInWithEmailAndPassword(newEmail, editTextUserPassword?.getText().toString().trim())
+                        ?.addOnCompleteListener(object : OnCompleteListener<AuthResult?>{
+                            override fun onComplete(task: Task<AuthResult?>) {
+                                if(task.isSuccessful()){
+                                    dialog?.dismiss()
+                                    // val loginIntent  = Intent(this@LoginActivity, NavigationActivity:: class.java )
+                                    //loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    //  startActivity(loginIntent)
+                                    finish()
+                                }
+                                else {
+                                    Toast.makeText(getApplicationContext(), "Wrong email/password combination. Try again",Toast.LENGTH_SHORT).show()
+                                    dialog?.dismiss()
+
+                                }
+                            }
+
+                        })
+                }
+
+            }
 
     }
 
@@ -43,19 +76,19 @@ class LoginActivity : AppCompatActivity(){
     fun login(v: View?){
         dialog?.setMessage("Logging in. Please Wait.")
         dialog?.show()
-        if(editTextUserEmail!!.getText().toString()=="" || editTextUserPassword!!.getText().toString()=="")
+        if(editTextUserEmail?.getText().toString()=="" || editTextUserPassword?.getText().toString()=="")
         {
             Toast.makeText(getApplicationContext(), "Blank fields not allowed.", Toast.LENGTH_SHORT ).show()
-            dialog!!.dismiss()
+            dialog?.dismiss()
 
         }
         else {
-            val newEmail: String = editTextUserEmail!!.getText().toString()
-            auth!!.signInWithEmailAndPassword(newEmail, editTextUserPassword!!.getText().toString())
-                .addOnCompleteListener(object : OnCompleteListener<AuthResult?>{
+            val newEmail: String = editTextUserEmail?.getText().toString()
+            auth?.signInWithEmailAndPassword(newEmail, editTextUserPassword?.getText().toString())
+                ?.addOnCompleteListener(object : OnCompleteListener<AuthResult?>{
                     override fun onComplete(task: Task<AuthResult?>) {
                         if(task.isSuccessful()){
-                            dialog!!.dismiss()
+                            dialog?.dismiss()
                            // val loginIntent  = Intent(this@LoginActivity, NavigationActivity:: class.java )
                             //loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                           //  startActivity(loginIntent)
@@ -63,7 +96,7 @@ class LoginActivity : AppCompatActivity(){
                         }
                         else {
                             Toast.makeText(getApplicationContext(), "Wrong email/password combination. Try again",Toast.LENGTH_SHORT).show()
-                            dialog!!.dismiss()
+                            dialog?.dismiss()
 
                         }
                     }

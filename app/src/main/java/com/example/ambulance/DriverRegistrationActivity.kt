@@ -6,7 +6,9 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.provider.ContactsContract.CommonDataKinds.Email
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
@@ -20,19 +22,25 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 
 
 class DriverRegistrationActivity : AppCompatActivity() {
     @BindView(R.id.editTextTextPersonName)
     var editTextDriverName: EditText? = null
+
     @BindView(R.id.editTextTextEmailAddress)
     var editTextDriverEmail: EditText? = null
+
     @BindView(R.id.editTextTextPassword)
     var editTextDriverPassword: EditText? = null
+
     @BindView(R.id.editTextTextPersonName2)
     var editTextDriverBus: EditText? = null
+
     @BindView(R.id.driverToolbar)
     var toolbar: Toolbar? = null
+
     var auth: FirebaseAuth? = null
     var dialog: ProgressDialog? = null
     var user: FirebaseUser? = null
@@ -41,24 +49,41 @@ class DriverRegistrationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.register_driver)
         ButterKnife.bind(this)
-        toolbar!!.title = "Driver Registration"
+        toolbar?.title = "Driver Registration"
         setSupportActionBar(toolbar)
         auth = FirebaseAuth.getInstance()
         dialog = ProgressDialog(this)
 
+        var btnRegistor = findViewById<Button>(R.id.button3)
 
+              btnRegistor.setOnClickListener {
+                dialog?.setTitle("Creating Account")
+                dialog?.setMessage("Please wait")
+                dialog?.show()
+                val name: String = editTextDriverName?.getText().toString()
+                val email:  String= editTextDriverEmail?.getText().toString().trim()
+                val password: String = editTextDriverPassword?.getText().toString().trim()
+                if(name.isEmpty() && email.isEmpty() && password.isEmpty())
+                {
+                    Toast.makeText(getApplicationContext(),"Please enter correct details", Toast.LENGTH_SHORT).show()
+                    dialog?.dismiss()
+                }
+                else
+                {
+                    doAllStuff()
+                } }
     }
     fun registerDriver(v: View?){
-        dialog!!.setTitle("Creating Account")
-        dialog!!.setMessage("Please wait")
-        dialog!!.show()
-        val name: String = editTextDriverName!!.getText().toString()
-        val email: String = editTextDriverEmail!!.getText().toString()
-        val password: String = editTextDriverPassword!!.getText().toString()
-        if(name == "" && email  =="" && password=="")
+        dialog?.setTitle("Creating Account")
+        dialog?.setMessage("Please wait")
+        dialog?.show()
+        val name: String = editTextDriverName?.getText().toString()
+        val email: String = editTextDriverEmail?.getText().toString().trim()
+        val password: String = editTextDriverPassword?.getText().toString()
+        if(name == null && email  == null && password == null)
         {
             Toast.makeText(getApplicationContext(),"Please enter correct details", Toast.LENGTH_SHORT).show()
-            dialog!!.dismiss()
+            dialog?.dismiss()
         }
         else
         {
@@ -67,40 +92,37 @@ class DriverRegistrationActivity : AppCompatActivity() {
     }
 
     private fun doAllStuff() {
-        auth!!.createUserWithEmailAndPassword(
-            editTextDriverEmail!!.getText().toString(),
-            editTextDriverPassword!!.getText().toString()
+        val name: String = editTextDriverName?.getText().toString()
+        val email: String = editTextDriverEmail?.getText().toString().trim()
+        val password: String = editTextDriverPassword?.getText().toString()
+        val ambulanceNo: String = editTextDriverBus?.getText().toString()
+        auth?.createUserWithEmailAndPassword(
+            email, password
 
         )
-            .addOnCompleteListener( object : OnCompleteListener<AuthResult?>{
+            ?.addOnCompleteListener( object : OnCompleteListener<AuthResult?>{
                 override fun onComplete(p0: Task<AuthResult?>) {
 
-                    if(p0.isSuccessful())
-                    {
-                        val driver: com.example.ambulance.Driver = com.example.ambulance.Driver(
-                            editTextDriverName!!.getText().toString(),
-                            editTextDriverEmail!!.getText().toString(),
-                            editTextDriverPassword!!.getText().toString(),
-                            editTextDriverBus!!.getText().toString(),
+                    if(p0.isSuccessful()) {
+                        val driver: com.example.ambulance.Driver =  com.example.ambulance.Driver(
+                           name, email, password, ambulanceNo,
                             "33.652037", "73.156598"
                         )
-                        user = auth!!.currentUser
-                        databaseReference = FirebaseDatabase.getInstance().getReference().child("Drivers").child(user!!.uid)
-                        databaseReference!!.setValue(driver)
-                            .addOnCompleteListener(object : OnCompleteListener<Void?>{
+                        user = auth?.currentUser
+                        databaseReference =
+                            FirebaseDatabase.getInstance().getReference().child("Drivers")
+                                .child(user?.getUid().toString())
+                        databaseReference?.setValue(driver)
+                            ?.addOnCompleteListener(object : OnCompleteListener<Void?>{
                                 override fun onComplete(p0: Task<Void?>) {
-                                    if (p0.isSuccessful)
-                                    {
-                                        dialog!!.dismiss()
+                                    if (p0.isSuccessful) {
+                                        dialog?.dismiss()
                                         Toast.makeText(this@DriverRegistrationActivity, "Account created successfully", Toast.LENGTH_SHORT).show()
                                         finish()
-                                        val myIntent = Intent(this@DriverRegistrationActivity, NavigationActivity::class.java)
-                                        startActivity(myIntent)
-                                    }
-                                    else
-                                    { Toast.makeText(this@DriverRegistrationActivity, "Could not Register driver", Toast.LENGTH_LONG).show()
-                                        dialog!!.dismiss()
-
+                                        //   val myIntent = Intent(this@DriverRegistrationActivity, NavigationActivity::class.java)
+                                        //    startActivity(myIntent)
+                                    } else { Toast.makeText(this@DriverRegistrationActivity, "Could not Register driver", Toast.LENGTH_LONG).show()
+                                        dialog?.dismiss()
 
 
                                     }
@@ -108,12 +130,10 @@ class DriverRegistrationActivity : AppCompatActivity() {
                             })
 
 
-
-                    } else
-                    {
-                        Toast.makeText(this@DriverRegistrationActivity, "Could not register. "+ p0.exception!!.message, Toast.LENGTH_LONG).show()
-                        dialog!!.dismiss()
-                    }
+                    } else {
+                       Toast.makeText(this@DriverRegistrationActivity, "Could not register. "+ p0.exception?.message, Toast.LENGTH_LONG).show()
+                      dialog?.dismiss()
+                   }
                 }
             })
     }
