@@ -20,6 +20,7 @@ class Driver {
     ){
         this.email = email
         this.name = name
+        this.password = password
         this.vehiclenumber = vehiclenumber
         this.lat = lat
         this.lng = lng

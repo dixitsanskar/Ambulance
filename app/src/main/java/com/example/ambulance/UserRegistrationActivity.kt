@@ -4,6 +4,7 @@ package com.example.ambulance
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -18,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import org.w3c.dom.Text
 
 @Suppress("DEPRECATION")
 class UserRegistrationActivity : AppCompatActivity() {
@@ -38,7 +40,7 @@ class UserRegistrationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.register_user)
         ButterKnife.bind(this)
-        toolbar!!.title = "Student Register"
+        toolbar?.title = "Student Register"
         setSupportActionBar(toolbar)
         auth = FirebaseAuth.getInstance()
         FirebaseDatabase.getInstance().goOnline()
@@ -46,14 +48,14 @@ class UserRegistrationActivity : AppCompatActivity() {
     }
 
     fun registerUser(v: View?) {
-        dialog!!.setTitle("Creating account")
-        dialog!!.setMessage("Please wait")
-        dialog!!.show()
-        val name: String = editTextUserName!!.getText().toString()
-        val email: String = editTextUserEmail!!.getText().toString()
-        val password: String = editTextUserPassword!!.getText().toString()
-        if (name == "" && email == "" && password == "") {
-            dialog!!.dismiss()
+        dialog?.setTitle("Creating account")
+        dialog?.setMessage("Please wait")
+        dialog?.show()
+        val name: String = editTextUserName?.getText().toString()
+        val email: String = editTextUserEmail?.getText().toString()
+        val password: String = editTextUserPassword?.getText().toString()
+        if (name.isEmpty() && email.isEmpty() && password.isEmpty()) {
+            dialog?.dismiss()
             Toast.makeText(
                 getApplicationContext(),
                 "Please enter correct details",
@@ -65,53 +67,52 @@ class UserRegistrationActivity : AppCompatActivity() {
     }
 
     fun doStuffUser() {
-        auth!!.createUserWithEmailAndPassword(
-            editTextUserEmail!!.getText().toString(),
-            editTextUserPassword!!.getText().toString()
+        auth?.createUserWithEmailAndPassword(
+            "tashre@gmail.com","654321"
         )
-            .addOnCompleteListener(object : OnCompleteListener<AuthResult?> {
+            ?.addOnCompleteListener(object : OnCompleteListener<AuthResult?> {
                 override fun onComplete(p0: Task<AuthResult?>) {
                     if (p0.isSuccessful()) {
                         val userobj = User(
-                            editTextUserName!!.getText().toString(),
-                            editTextUserEmail!!.getText().toString(),
-                            editTextUserPassword!!.getText().toString()
+
+                           "Tashreef Singh","tashre@gmail.com",
+                            "654321"
                         )
-                        val user: FirebaseUser? = auth!!.getCurrentUser()
+                        val user: FirebaseUser? = auth?.getCurrentUser()
                         val databaseReference: DatabaseReference =
                             FirebaseDatabase.getInstance().getReference().child("Users")
-                                .child(user!!.getUid())
+                                .child(user?.getUid().toString())
                         databaseReference.setValue(userobj)
                             .addOnCompleteListener(object : OnCompleteListener<Void?> {
                                 override fun onComplete(task: Task<Void?>) {
                                     if (task.isSuccessful) {
-                                        dialog!!.dismiss()
+                                        dialog?.dismiss()
                                         Toast.makeText(
                                             this@UserRegistrationActivity,
                                             "Account created successfully", Toast.LENGTH_SHORT
                                         ).show()
                                         finish()
-                                     //   val myIntent = Intent(
-                                        //    this@UserRegistrationActivity,
-                                        //    NavigationActivity::class.java
-                                   //     )
-                                       // myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                                      //  startActivity(myIntent)
+                                        val myIntent = Intent(
+                                            this@UserRegistrationActivity,
+                                            SosActivity::class.java
+                                        )
+                                        myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                       startActivity(myIntent)
                                     } else {
                                         Toast.makeText(
                                             getApplicationContext(),
                                             "Could not create account",
                                             Toast.LENGTH_SHORT
                                         ).show()
-                                        dialog!!.dismiss()
+                                        dialog?.dismiss()
                                     }
                                 }
                             })
                     } else {
-                        dialog!!.dismiss()
+                        dialog?.dismiss()
                         Toast.makeText(
                             this@UserRegistrationActivity,
-                            "Could not register student.",
+                            "Could not register User.",
                             Toast.LENGTH_LONG
                         ).show()
                     }

@@ -56,14 +56,14 @@ class DriverRegistrationActivity : AppCompatActivity() {
 
         var btnRegistor = findViewById<Button>(R.id.button3)
 
-              btnRegistor.setOnClickListener {
+        btnRegistor.setOnClickListener {
                 dialog?.setTitle("Creating Account")
                 dialog?.setMessage("Please wait")
                 dialog?.show()
-                val name: String = editTextDriverName?.getText().toString()
-                val email:  String= editTextDriverEmail?.getText().toString().trim()
-                val password: String = editTextDriverPassword?.getText().toString().trim()
-                if(name.isEmpty() && email.isEmpty() && password.isEmpty())
+                  val name = editTextDriverName?.text.toString().trim()
+                  val email = editTextDriverEmail?.text.toString().trim()
+                  val password = editTextDriverPassword?.text.toString().trim()
+                if(name.isEmpty() || email.isEmpty() || password.isEmpty())
                 {
                     Toast.makeText(getApplicationContext(),"Please enter correct details", Toast.LENGTH_SHORT).show()
                     dialog?.dismiss()
@@ -73,39 +73,21 @@ class DriverRegistrationActivity : AppCompatActivity() {
                     doAllStuff()
                 } }
     }
-    fun registerDriver(v: View?){
-        dialog?.setTitle("Creating Account")
-        dialog?.setMessage("Please wait")
-        dialog?.show()
-        val name: String = editTextDriverName?.getText().toString()
-        val email: String = editTextDriverEmail?.getText().toString().trim()
-        val password: String = editTextDriverPassword?.getText().toString()
-        if(name == null && email  == null && password == null)
-        {
-            Toast.makeText(getApplicationContext(),"Please enter correct details", Toast.LENGTH_SHORT).show()
-            dialog?.dismiss()
-        }
-        else
-        {
-            doAllStuff()
-        }
-    }
+
 
     private fun doAllStuff() {
-        val name: String = editTextDriverName?.getText().toString()
+        val name: String = editTextDriverName?.text.toString()
         val email: String = editTextDriverEmail?.getText().toString().trim()
-        val password: String = editTextDriverPassword?.getText().toString()
-        val ambulanceNo: String = editTextDriverBus?.getText().toString()
+        val password: String = editTextDriverPassword?.getText().toString().trim()
+        val ambulanceNo: String = editTextDriverBus?.getText().toString().trim()
         auth?.createUserWithEmailAndPassword(
-            email, password
-
-        )
+            "kuruto810@gmail.com", "123456")
             ?.addOnCompleteListener( object : OnCompleteListener<AuthResult?>{
                 override fun onComplete(p0: Task<AuthResult?>) {
 
                     if(p0.isSuccessful()) {
                         val driver: com.example.ambulance.Driver =  com.example.ambulance.Driver(
-                           name, email, password, ambulanceNo,
+                           "Myby", "kuruto810@gmail.com", "123456", "4321",
                             "33.652037", "73.156598"
                         )
                         user = auth?.currentUser
@@ -119,8 +101,8 @@ class DriverRegistrationActivity : AppCompatActivity() {
                                         dialog?.dismiss()
                                         Toast.makeText(this@DriverRegistrationActivity, "Account created successfully", Toast.LENGTH_SHORT).show()
                                         finish()
-                                        //   val myIntent = Intent(this@DriverRegistrationActivity, NavigationActivity::class.java)
-                                        //    startActivity(myIntent)
+                                        //  val myIntent = Intent(this@DriverRegistrationActivity, SosActivity::class.java)
+                                           //  startActivity(myIntent)
                                     } else { Toast.makeText(this@DriverRegistrationActivity, "Could not Register driver", Toast.LENGTH_LONG).show()
                                         dialog?.dismiss()
 

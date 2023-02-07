@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+
+
+        <item
+            android:id="@+id/driversettings"
+            android:icon="@drawable/ic_stat_name"
+            android:title="Settings" />
+
+        <!--<item-->
+            <!--android:id="@+id/nav_send_fcm"-->
+            <!--android:icon="@drawable/messageicon"-->
+            <!--android:title="Notify to students">-->
+
+        <!--</item>-->
+
+
+
+        <item
+            android:id="@+id/nav_signout"
+            android:icon="@drawable/signouticon"
+            android:title="SignOut" />
+
+    </group>
+
+</menu>

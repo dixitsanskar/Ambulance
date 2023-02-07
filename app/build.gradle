@@ -8,6 +8,7 @@ android {
     namespace 'com.example.ambulance'
     compileSdk 33
 
+
     defaultConfig {
         applicationId "com.example.ambulance"
         minSdk 23
@@ -31,6 +32,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -42,6 +46,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:21.1.0'
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation 'com.google.firebase:firebase-common-ktx:20.3.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -59,8 +67,11 @@ dependencies {
     implementation 'com.mcxiaoke.volley:library:1.0.19'
     testImplementation 'junit:junit:4.13.2'
     implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'com.mapbox.maps:android:10.10.1'
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+    //implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:8.5.1'
+   // implementation 'com.mapbox.mapboxsdk:mapbox-sdk-services:4.9.0'
+  //  implementation 'com.mapbox.mapboxsdk:mapbox-android-navigation:0.42.6'
+  //  implementation 'com.mapbox.mapboxsdk:mapbox-android-navigation-ui:0.42.6'
 
 }

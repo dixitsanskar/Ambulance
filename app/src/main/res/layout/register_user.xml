@@ -97,6 +97,8 @@
 
         <Button
             android:id="@+id/button3"
+            android:background="#355C6C"
+            android:textColor="#fff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/register"

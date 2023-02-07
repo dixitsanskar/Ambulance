@@ -38,6 +38,7 @@
 
             <Button
                 android:id="@+id/button"
+                android:background="#355C6C"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="80dp"
@@ -61,6 +62,8 @@
                 android:text="@string/register_as_user"
                 android:textColor="#ffffff"
                 android:textSize="18sp"
+                android:background="#355C6C"
+
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                  />

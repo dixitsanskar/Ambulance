@@ -28,17 +28,13 @@ class MainActivity : AppCompatActivity() {
         ButterKnife.bind(this)
         checkPermission()
         setContentView(R.layout.mainactivity)
-        if(user == null){
 
-
-
-        }
-        else
-        {
-           val myIntent = Intent(this@MainActivity, NavigationActivity::class.java)
-               startActivity(myIntent)
-            finish()
-        }
+       //if(user!=null)
+      //  {
+        //    val myIntent = Intent(this@MainActivity, SosActivity::class.java)
+          //     startActivity(myIntent)
+           // finish()
+        //}
 
 
     }
@@ -57,6 +53,8 @@ class MainActivity : AppCompatActivity() {
     }
     fun registerAsUser(v: View?)
     {
+        val myIntent = Intent(getApplicationContext(), UserRegistrationActivity::class.java)
+        startActivity(myIntent)
 
     }
     private fun checkPermission(): Boolean

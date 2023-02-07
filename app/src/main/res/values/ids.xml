@@ -2,4 +2,8 @@
 <resources>
     <item name="title_text" type="id" />
     <item name="email_text" type="id" />
+    <item name="drawerLayout" type="id" />
+    <item name="drawerLayouts" type="id"/>
+    <item name="drawerr" type="id" />
+    <item name="toolbar" type="id" />
 </resources>

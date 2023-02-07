@@ -27,81 +27,55 @@ class LoginActivity : AppCompatActivity(){
 
     var auth: FirebaseAuth? = null
     var dialog: ProgressDialog? = null
-     override fun onCreate(savedInstanceState: Bundle?){
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        ButterKnife.bind(this)
-        toolbaar?.title = "Login"
-        setSupportActionBar(toolbaar)
-        auth = FirebaseAuth.getInstance()
-        dialog = ProgressDialog(this)
-            val btnLogin = findViewById<Button>(R.id.btnlogin)
-            btnLogin.setOnClickListener {
-                dialog?.setMessage("Logging in. Please Wait.")
-                dialog?.show()
-                if(editTextUserEmail?.getText().toString().isEmpty() || editTextUserPassword?.getText().toString().isEmpty())
-                {
-                    Toast.makeText(getApplicationContext(), "Blank fields not allowed.", Toast.LENGTH_SHORT ).show()
-                    dialog?.dismiss()
+     override fun onCreate(savedInstanceState: Bundle?) {
+         super.onCreate(savedInstanceState)
+         setContentView(R.layout.activity_login)
+         ButterKnife.bind(this)
+         toolbaar?.title = "Login"
+         setSupportActionBar(toolbaar)
+         auth = FirebaseAuth.getInstance()
+         dialog = ProgressDialog(this)
+         val btnLogin = findViewById<Button>(R.id.btnlogin)
+         btnLogin.setOnClickListener {
+             dialog?.setMessage("Logging in. Please Wait.")
+             dialog?.show()
+             if (editTextUserEmail?.text.toString()
+                     .isEmpty() || editTextUserPassword?.text.toString().isEmpty()
+             ) {
+                 Toast.makeText(applicationContext, "Blank fields not allowed.", Toast.LENGTH_SHORT)
+                     .show()
+                 dialog?.dismiss()
 
-                }
-                else {
-                    val newEmail: String = editTextUserEmail?.getText().toString().trim()
-                    auth?.signInWithEmailAndPassword(newEmail, editTextUserPassword?.getText().toString().trim())
-                        ?.addOnCompleteListener(object : OnCompleteListener<AuthResult?>{
-                            override fun onComplete(task: Task<AuthResult?>) {
-                                if(task.isSuccessful()){
-                                    dialog?.dismiss()
-                                    // val loginIntent  = Intent(this@LoginActivity, NavigationActivity:: class.java )
-                                    //loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                                    //  startActivity(loginIntent)
-                                    finish()
-                                }
-                                else {
-                                    Toast.makeText(getApplicationContext(), "Wrong email/password combination. Try again",Toast.LENGTH_SHORT).show()
-                                    dialog?.dismiss()
-
-                                }
-                            }
-
-                        })
-                }
-
-            }
-
-    }
+             } else {
+                 val newEmail: String = editTextUserEmail?.text.toString().trim()
+                 auth?.signInWithEmailAndPassword(
+                   "kuruto810@gmail.com",
+                    "123456"
+                 )
+                     ?.addOnCompleteListener(object : OnCompleteListener<AuthResult?> {
+                         override fun onComplete(task: Task<AuthResult?>) {
+                             if (task.isSuccessful) {
+                                 dialog?.dismiss()
 
 
+                                 val loginIntent  = Intent(this@LoginActivity, SosActivity:: class.java )
+                                 loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                                 startActivity(loginIntent)
+                                 finish()
+                             } else {
+                                 Toast.makeText(
+                                     applicationContext,
+                                     "Wrong email/password combination. Try again",
+                                     Toast.LENGTH_SHORT
+                                 ).show()
+                                 dialog?.dismiss()
 
-    fun login(v: View?){
-        dialog?.setMessage("Logging in. Please Wait.")
-        dialog?.show()
-        if(editTextUserEmail?.getText().toString()=="" || editTextUserPassword?.getText().toString()=="")
-        {
-            Toast.makeText(getApplicationContext(), "Blank fields not allowed.", Toast.LENGTH_SHORT ).show()
-            dialog?.dismiss()
+                             }
+                         }
 
-        }
-        else {
-            val newEmail: String = editTextUserEmail?.getText().toString()
-            auth?.signInWithEmailAndPassword(newEmail, editTextUserPassword?.getText().toString())
-                ?.addOnCompleteListener(object : OnCompleteListener<AuthResult?>{
-                    override fun onComplete(task: Task<AuthResult?>) {
-                        if(task.isSuccessful()){
-                            dialog?.dismiss()
-                           // val loginIntent  = Intent(this@LoginActivity, NavigationActivity:: class.java )
-                            //loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                          //  startActivity(loginIntent)
-                            finish()
-                        }
-                        else {
-                            Toast.makeText(getApplicationContext(), "Wrong email/password combination. Try again",Toast.LENGTH_SHORT).show()
-                            dialog?.dismiss()
+                     })
+             }
 
-                        }
-                    }
+         }
 
-                })
-        }
-    }
-}
+     }}
